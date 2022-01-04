@@ -2,12 +2,11 @@ import { config, useSpring } from "@react-spring/three";
 import { useEffect, useState } from "react";
 import { BoxObject } from "./BoxObject";
 
-export const PackageObject = () => {
+export const PackageObject = ({ distance }) => {
   const initialX = -1;
-  const finalX = 4;
+  const finalX = distance;
   const [active, setActive] = useState(false);
   const [startTransport, setStartTransport] = useState(false);
-
   const { position } = useSpring({
     position: [!active ? initialX : finalX, 0, 0],
     config: config.wobbly
