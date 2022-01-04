@@ -1,13 +1,19 @@
 {
-  "name": "react",
-  "version": "1.0.0",
-  "description": "React example starter project",
-  "keywords": ["react", "starter"],
+  "name": "hyper-loop-simulator",
+  "version": "1.0.1",
+  "description": "hyper loop simulator",
+  "keywords": [
+    "react",
+    "starter"
+  ],
   "main": "src/index.js",
   "dependencies": {
+    "@react-three/drei": "8.3.1",
+    "@react-three/fiber": "7.0.24",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-scripts": "4.0.0"
+    "react-scripts": "4.0.0",
+    "three": "0.136.0"
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",
@@ -19,5 +25,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
