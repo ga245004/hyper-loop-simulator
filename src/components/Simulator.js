@@ -9,37 +9,82 @@ import { SportLightObject } from "./Objects/SportLightObject";
 import { PackageObject } from "./Objects/PackageObject";
 import { useCommands } from "./useCommands";
 import { Color } from "three";
-import { LeftTurnBoxObject } from "./Objects/LeftTurnBoxObject";
+import { TurnBoxObject } from "./Objects/TurnBoxObject";
+import { updatePosition } from "./hyperloop";
 
 const initialBoxes = [
   {
     id: 0,
-    color: "#ff0000"
-  },
-  {
-    id: 1,
-    color: "#00ff00"
-  },
-  {
-    id: 2,
-    color: "#0000ff"
+    color: new Color(0xffffff),
+    turn: ""
   }
 ];
 
+const getInitState = () => {
+  return initialBoxes;
+};
+
 const SimulatorCanvas = ({}) => {
-  const [boxes, setBoxes] = useState(initialBoxes);
+  const [boxes, setBoxes] = useState(getInitState());
   const commands = useCommands();
   useEffect(() => {
     const addBox = (box) => {
       box.id = boxes.length;
       box.color = new Color(0xffffff);
       box.color.setHex(Math.random() * 0xffffff);
-      setBoxes([box].concat(boxes));
+      setBoxes(boxes.concat([box]));
     };
     commands.subscribe("add", addBox);
 
-    return () => commands.unSubscribe("add", addBox);
+    const clear = () => {
+      setBoxes([]);
+    };
+    commands.subscribe("clear", clear);
+
+    return () => {
+      commands.unSubscribe("add", addBox);
+      commands.unSubscribe("clear", clear);
+    };
   }, [commands, boxes]);
+
+  const renderBoxes = () => {
+    let position = [-1, 0, 0];
+    let direction = "X";
+    let step = 1;
+    const renderedBoxes = boxes.map(({ id, color, turn }, index) => {
+      console.log("box", id, turn);
+      let box = <></>;
+
+      const updateValues = updatePosition(turn, position, direction, step);
+      position = updateValues.position;
+      direction = updateValues.direction;
+      step = updateValues.step;
+
+      if (false && turn === "left") {
+        box = (
+          <TurnBoxObject
+            key={index + 1}
+            color={color}
+            position={[position[0], position[1], position[2]]}
+            rotation={[0, 0, 0]}
+          />
+        );
+      }
+
+      if (true) {
+        box = (
+          <BoxObject
+            key={index + 1}
+            color={color}
+            position={[position[0], position[1], position[2]]}
+          />
+        );
+      }
+
+      return box;
+    });
+    return renderedBoxes;
+  };
 
   return (
     <Canvas>
@@ -55,14 +100,7 @@ const SimulatorCanvas = ({}) => {
       <PointLightObject position={[10, 10, 10]} />
       <SportLightObject position={[10, 10, 10]} />
       <PackageObject distance={boxes.length * 1.1} />
-      <LeftTurnBoxObject position={[-2, 0, 0]} color={"#ff88ff"} />
-      {boxes.length &&
-        boxes.map(({ id, color }, index) => {
-          console.log(index);
-          return (
-            <BoxObject key={id} color={color} position={[index * 1.1, 0, 0]} />
-          );
-        })}
+      {boxes.length && renderBoxes()}
     </Canvas>
   );
 };
