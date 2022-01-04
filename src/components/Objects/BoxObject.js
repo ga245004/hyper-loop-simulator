@@ -1,13 +1,25 @@
-export const BoxObject = ({ color, onClick, onPointerOver, onPointerOut }) => {
+import { forwardRef, useRef } from "react";
+import { animated } from "@react-spring/three";
+
+export const BoxObject = forwardRef((props, ref) => {
+  const {
+    color,
+    position,
+    scale = 1,
+    width = 1,
+    height = 1,
+    depth = 1,
+    onClick = undefined
+  } = props;
   return (
-    <mesh
-      scale={1}
+    <animated.mesh
+      ref={ref}
+      position={position}
+      scale={scale}
       onClick={onClick}
-      onPointerOver={onPointerOver}
-      onPointerOut={onPointerOut}
     >
-      <boxGeometry args={[1, 1, 1]} />
+      <boxGeometry args={[width, height, depth]} />
       <meshStandardMaterial color={color} />
-    </mesh>
+    </animated.mesh>
   );
-};
+});
