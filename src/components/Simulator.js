@@ -28,11 +28,15 @@ const SimulatorCanvas = ({}) => {
   const [boxes, setBoxes] = useState(getInitState());
   const commands = useCommands();
   useEffect(() => {
-    const addBox = (box) => {
-      box.id = boxes.length;
-      box.color = new Color(0xffffff);
-      box.color.setHex(Math.random() * 0xffffff);
-      setBoxes(boxes.concat([box]));
+    const addBox = (newBoxes) => {
+      if (newBoxes) {
+        newBoxes.forEach((box) => {
+          box.id = boxes.length;
+          box.color = new Color(0xffffff);
+          box.color.setHex(Math.random() * 0xffffff);
+        });
+        setBoxes(boxes.concat(newBoxes));
+      }
     };
     commands.subscribe("add", addBox);
 

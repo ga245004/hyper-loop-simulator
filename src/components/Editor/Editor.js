@@ -2,29 +2,45 @@ import { useCommands } from "../useCommands";
 import "./Editor.css";
 
 export const Editor = () => {
+  const commands = useCommands();
+
   const addBox = (events) => {
-    commands.execute("add", {
-      turn: ""
-    });
+    commands.execute("add", [
+      {
+        turn: ""
+      }
+    ]);
+    console.log("added box");
   };
 
   const addLeftBox = (events) => {
-    commands.execute("add", {
-      turn: "left"
-    });
+    commands.execute("add", [
+      {
+        turn: "left"
+      },
+      {
+        turn: ""
+      }
+    ]);
+    console.log("added left box");
   };
 
   const addRightBox = (events) => {
-    commands.execute("add", {
-      turn: "right"
-    });
+    commands.execute("add", [
+      {
+        turn: "right"
+      },
+      {
+        turn: ""
+      }
+    ]);
+
+    console.log("added right box");
   };
 
   const clearBoxes = (events) => {
     commands.execute("clear", {});
   };
-
-  const commands = useCommands();
 
   return (
     <div className="editor">

@@ -26,14 +26,14 @@ export const updatePosition = (
     step = -1;
   } else if (direction === "Z" && turn === "left" && step > 0) {
     direction = "X";
-    step = -1;
+    step = +1;
   } else if (direction === "Z" && turn === "left" && step < 0) {
     direction = "X";
     step = -1;
   } else if (direction === "Z" && turn === "right" && step > 0) {
     direction = "X";
-    step = +1;
-  } else if (direction === "Z" && turn === "left" && step < 0) {
+    step = -1;
+  } else if (direction === "Z" && turn === "right" && step < 0) {
     direction = "X";
     step = +1;
   }
